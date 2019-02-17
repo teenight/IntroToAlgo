@@ -1,4 +1,4 @@
 # COMP3270
 <br />
-Code storage of activities&Projects of COMP3270(Introduction To Algorithms).
+Code storage of activities&projects of COMP3270(Introduction To Algorithms).
 <br />
