@@ -1,0 +1,14 @@
+Name: Zejian Zhong
+Email: zzz0065@auburn.edu
+No plagiarism certification
+Sources:
+	Autocomplete.java
+	AutocompleteGUI.java
+	AutocompleteMain.java
+	AutocompletorBenchmark.java
+	Node.java
+	Term.java
+	TestTrieAutocomplete.java
+	Autocomplete.gpj
+
+Compiled with jGrasp with Junit as test tool. You can open Autocomplete.gpj to open all the files in the project.
