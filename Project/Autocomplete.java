@@ -356,53 +356,38 @@ public class Autocomplete {
             if (weight < 0) {
                throw new IllegalArgumentException("Weight cannot be negative");
             }
-            
-            if (myRoot.mySubtreeMaxWeight < weight) {
-               myRoot.mySubtreeMaxWeight = weight;
-            }
-            
+
             Node curr = myRoot; // Current root node
-            
-            for (int i = 0; i < word.length(); i++) {
-               if (curr.mySubtreeMaxWeight < weight) {
-                  curr.mySubtreeMaxWeight = weight;
-               }
-               
-               char rtChar = word.charAt(i);
-               
-               if (!curr.children.containsKey(rtChar)) {
-                  curr.children.put(rtChar, new Node(word.charAt(i), curr, weight));
-                  curr.myInfo = curr.myInfo + rtChar;
-               }
-               curr = curr.children.get(rtChar);
-               
-               curr.isWord = true;
-               curr.setWord(word);
-               curr.myWord = word;
-               
-               if (curr.isWord && curr.myWeight > weight) {
-                  curr.myWeight = weight;
-                  curr.setWeight(weight);
-                  while (curr != null) {
-                     double maxWeight = -1;
-                     for (Character ch : curr.children.keySet()) {
-                        if (curr.children.get(ch).mySubtreeMaxWeight > maxWeight) {
-                           maxWeight = curr.children.get(ch).mySubtreeMaxWeight;
-                        }
-                     }
-                     curr.mySubtreeMaxWeight = maxWeight;
-                     curr = curr.parent;
-                  }
-               }
-               else {
-                  curr.isWord = true;
-                  curr.setWord(word);
-                  curr.setWeight(weight);
-                  curr.myWeight = weight;
-                  curr.myWord = word;
-               }
+
+            for(int i = 0; i < word.length(); i++){
+                char c = word.charAt(i);
+                if(weight > curr.mySubtreeMaxWeight){
+                    curr.mySubtreeMaxWeight = weight;
+                }
+                Node child = curr.getChild(c);
+
+                if(child == null){
+                    child = new Node(c, curr, weight);
+                    curr.children.put(c, child);
+                }
+                curr = child;
             }
+
+            if(curr.isWord){
+                double tempMaxWeight = curr.mySubtreeMaxWeight;
+                while(curr.parent != null){
+                    if(curr.parent.mySubtreeMaxWeight == tempMaxWeight){
+                        curr.mySubtreeMaxWeight = weight;
+                    }
+                    curr.parent = curr.parent.parent;
+                }
+            }
+
+            curr.setWord(word);
+            curr.setWeight(weight);
+            curr.isWord = true;
         }
+
 
         /**
          * Required by the Autocompletor interface. Returns an array containing the
